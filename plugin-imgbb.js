@@ -89,21 +89,6 @@ kiwi.plugin('imgbb', function(kiwi) {
                 // ----------------------------------------
 
                 // --- PASO 3: ABRIR DIÁLOGO DE ARCHIVO ---
-
-
-
-                // --- GUARDIÁN DE CONFIRMACIÓN ---
-//                const confirmation = window.confirm(
-//                    '⚠️ Advertencia de Contenido Prohibido ⚠️\n\n' +
-//                    'Al presionar "Aceptar", usted confirma que su imagen NO contiene material ilegal, pornografía infantil, o contenido violentamente explícito.\n\n' +
-//                    'El contenido prohibido será reportado y resultará en la SUSPENSIÓN PERMANENTE de su cuenta IRC.'
-//                );
-
-//                if (!confirmation) {
-//                    console.log('➡️ [ImgBB] Usuario canceló la subida por advertencia.');
-//                    return;
-//                }
-                // ----------------------------------------
                 this.$refs.fileInput.click();
                 console.log('➡️ [ImgBB] Clic en el botón. Abriendo diálogo de archivo.');
             },
