@@ -33,5 +33,5 @@ Este plugin permite la subida directa de imágenes a ImgBB con filtrado de usuar
         "message_format": "[Image] $url"
     }
 }
-
+```
 Nota: Puedes ver un ejemplo en el archivo example-config.json
