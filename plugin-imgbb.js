@@ -11,7 +11,7 @@
  * @license MIT
  *
  *****************************************************************/
-kiwi.plugin('imgbb', function(kiwi) {
+kiwi.plugin('imgbb', function (kiwi) {
 
     // --- DEBUG 1 ---
     console.log('✅ [ImgBB] Plugin cargado. Iniciando configuración.');
@@ -60,7 +60,7 @@ kiwi.plugin('imgbb', function(kiwi) {
                 // Detener la propagación del evento para evitar cualquier doble disparo
                 event.preventDefault();
 
-// --- PASO 1: VERIFICACIÓN DE REGISTRO (FILTRO) ---
+                // --- PASO 1: VERIFICACIÓN DE REGISTRO (FILTRO) ---
                 const buffer = kiwi.state.getActiveBuffer();
                 // Obtenemos la red de la forma más compatible
                 const network = buffer ? buffer.getNetwork() || kiwi.state.networks[0] : null;
@@ -74,7 +74,6 @@ kiwi.plugin('imgbb', function(kiwi) {
                     return; // Bloquea el resto del código
                 }
                 // ----------------------------------------------------------
-
                 // --- PASO 2: SÓLO SI PASÓ EL FILTRO, SE MUESTRA LA ADVERTENCIA DE POLÍTICA ---
                 const confirmation = window.confirm(
                     '⚠️ Advertencia de Contenido Prohibido ⚠️\n\n' +
@@ -87,7 +86,6 @@ kiwi.plugin('imgbb', function(kiwi) {
                     return;
                 }
                 // ----------------------------------------
-
                 // --- PASO 3: ABRIR DIÁLOGO DE ARCHIVO ---
                 this.$refs.fileInput.click();
                 console.log('➡️ [ImgBB] Clic en el botón. Abriendo diálogo de archivo.');
@@ -120,7 +118,7 @@ kiwi.plugin('imgbb', function(kiwi) {
         }
 
         // --- LÍNEA DE ADVERTENCIA CLAVE AQUÍ ---
-         addMessage(buffer, '⚠️ ADVERTENCIA: Contenido ilegal o pornográfico (XXX) está PROHIBIDO pr los términos de ImgBB y será sancionado con baneo permanente en este servidor.', 'notice');
+        addMessage(buffer, '⚠️ ADVERTENCIA: Contenido ilegal o pornográfico (XXX) está PROHIBIDO pr los términos de ImgBB y será sancionado con baneo permanente en este servidor.', 'notice');
         // ----------------------------------------
         component.uploading = true;
         addMessage(buffer, `⏳ Subiendo imagen a ImgBB...`);
@@ -136,34 +134,34 @@ kiwi.plugin('imgbb', function(kiwi) {
             method: 'POST',
             body: formData,
         })
-        .then(response => response.json())
-        .then(data => {
-            component.uploading = false;
+            .then(response => response.json())
+            .then(data => {
+                component.uploading = false;
 
-            if (data.success) {
-                const url = data.data.url;
-                const message = MESSAGE_FORMAT.replace('$url', url);
+                if (data.success) {
+                    const url = data.data.url;
+                    const message = MESSAGE_FORMAT.replace('$url', url);
 
-                // --- SOLUCIÓN FINAL: buffer.say() ---
-                try {
-                    buffer.say(message);
-                    addMessage(buffer, `✅ Imagen subida con éxito y enlace enviado.`, 'notice');
-                } catch (e) {
-                    addMessage(buffer, `❌ Fallo final de envío. El enlace es: ${message}`, 'error');
-                    console.error('❌ [ImgBB] Fallo final en buffer.say:', e);
+                    // --- SOLUCIÓN FINAL: buffer.say() ---
+                    try {
+                        buffer.say(message);
+                        addMessage(buffer, `✅ Imagen subida con éxito y enlace enviado.`, 'notice');
+                    } catch (e) {
+                        addMessage(buffer, `❌ Fallo final de envío. El enlace es: ${message}`, 'error');
+                        console.error('❌ [ImgBB] Fallo final en buffer.say:', e);
+                    }
+                    // ------------------------------------
+
+                } else {
+                    const errorMessage = data.error?.message || 'Error desconocido al subir a ImgBB.';
+                    addMessage(buffer, `❌ Error de ImgBB: ${errorMessage}`, 'error');
+                    console.error('❌ [ImgBB] Error de API:', data);
                 }
-                // ------------------------------------
-
-            } else {
-                const errorMessage = data.error?.message || 'Error desconocido al subir a ImgBB.';
-                addMessage(buffer, `❌ Error de ImgBB: ${errorMessage}`, 'error');
-                console.error('❌ [ImgBB] Error de API:', data);
-            }
-        })        .catch(error => {
-            component.uploading = false;
-            console.error('❌ [ImgBB] Fallo de red/API:', error);
-            addMessage(buffer, `❌ Fallo de red/API: No se pudo conectar a ImgBB.`, 'error');
-        });
+            }).catch(error => {
+                component.uploading = false;
+                console.error('❌ [ImgBB] Fallo de red/API:', error);
+                addMessage(buffer, `❌ Fallo de red/API: No se pudo conectar a ImgBB.`, 'error');
+            });
     }
 
     // --- 3. MONTAJE CLAVE ---
