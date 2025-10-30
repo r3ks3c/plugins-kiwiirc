@@ -8,7 +8,7 @@
  * @author rek
  * @github https://github.com/r3ks3c
  * @copyright 2025 rek
- * @license MIT (o el tipo de licencia que elijas, si aplica)
+ * @license MIT
  *
  *****************************************************************/
 kiwi.plugin('imgbb', function(kiwi) {
